@@ -1,0 +1,7 @@
+name: Slimewars
+version: ${project.version}
+main: net.unpluggemc.slimewars.Slimewars
+api-version: 1.16
+authors: [ DennisUnplugged ]
+description: The official SlimeWars plugin. Reamsterd and optimized for 1.16
+website: www.unpluggedmc.net
