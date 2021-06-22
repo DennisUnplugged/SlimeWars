@@ -13,6 +13,7 @@ public final class Slimewars extends JavaPlugin {
     @Override
     public void onEnable() {
 
+
     }
 
     @Override
