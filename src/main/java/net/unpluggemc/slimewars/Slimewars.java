@@ -13,7 +13,7 @@ public final class Slimewars extends JavaPlugin {
     @Override
     public void onEnable() {
 
-
+        getLogger().info("SlimeWars enabled!");
     }
 
     @Override
