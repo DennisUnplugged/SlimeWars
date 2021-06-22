@@ -5,3 +5,8 @@ api-version: 1.16
 authors: [ DennisUnplugged ]
 description: The official SlimeWars plugin. Reamsterd and optimized for 1.16
 website: www.unpluggedmc.net
+
+commands:
+  start:
+    usage: §cWrong Syntax! /<command>
+    aliases: [ss, slimewarsstart]
