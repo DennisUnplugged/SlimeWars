@@ -1,0 +1,7 @@
+Arena = A world, a map, a specific place where players play slimewars.
+ArenaManager = A class that manages all arenas.
+GameManger = The class to manage all in game actions.
+GameState = An enum that represents a state of the game
+
+Utils ->
+    CommandInfo, PluginCommand : Basic classes that manage command handling.
