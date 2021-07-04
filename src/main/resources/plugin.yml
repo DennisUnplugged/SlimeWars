@@ -1,12 +1,19 @@
 name: Slimewars
 version: ${project.version}
-main: net.unpluggemc.slimewars.Slimewars
+main: net.unpluggemc.slimewars.SlimeWars
 api-version: 1.16
 authors: [ DennisUnplugged ]
 description: The official SlimeWars plugin. Reamsterd and optimized for 1.16
 website: www.unpluggedmc.net
 
 commands:
-  start:
-    usage: §cWrong Syntax! /<command>
-    aliases: [ss, slimewarsstart]
+  warp:
+    usage: §cWrong Syntax! /warp <world>
+    aliases: [sw]
+    description: The command to join a world/arena
+    permission: slimewars.warp
+  resetMap:
+    usage: §cWrong Syntax! /reset <world>
+    aliases: [rollback]
+    description: The command to reset/rollback a world/arena
+    permission: slimewars.reset

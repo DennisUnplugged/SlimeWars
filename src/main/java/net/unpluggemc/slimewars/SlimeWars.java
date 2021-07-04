@@ -22,6 +22,8 @@
 
 package net.unpluggemc.slimewars;
 
+import net.unpluggemc.slimewars.arena.Arena;
+import net.unpluggemc.slimewars.arena.ArenaManager;
 import net.unpluggemc.slimewars.utils.PluginCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -32,10 +34,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public final class SlimeWars extends JavaPlugin {
+    private ArenaManager arenaManager;
+
 
     @Override
     public void onEnable() {
-
+        this.arenaManager = new ArenaManager(this);
 
         saveDefaultConfig();
 
@@ -45,7 +49,11 @@ public final class SlimeWars extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.arenaManager.getArenas().forEach((Arena::unload));
+    }
 
+    public ArenaManager getArenaManager() {
+        return arenaManager;
     }
 
     public void registerEvents() {
@@ -69,7 +77,8 @@ public final class SlimeWars extends JavaPlugin {
         for (Class<? extends PluginCommand> clazz : new Reflections(packageName + ".commands").getSubTypesOf(PluginCommand.class)) {
             try {
                 PluginCommand pluginCommand = clazz.getDeclaredConstructor(this.getClass()).newInstance(this);
-                Objects.requireNonNull(getCommand(pluginCommand.getCommandInfo().name())).setExecutor(pluginCommand);
+                getCommand(pluginCommand.getCommandInfo().name())
+                        .setExecutor(pluginCommand);
             } catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
                 e.printStackTrace();
             }

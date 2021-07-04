@@ -22,6 +22,7 @@
 
 package net.unpluggemc.slimewars.utils;
 
+import net.unpluggemc.slimewars.SlimeWars;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,10 +33,12 @@ import java.util.Objects;
 
 public abstract class PluginCommand implements CommandExecutor {
     private final CommandInfo commandInfo;
+    private final SlimeWars plugin;
 
-    protected PluginCommand() {
+    public PluginCommand(SlimeWars plugin) {
         commandInfo = getClass().getDeclaredAnnotation(CommandInfo.class);
         Objects.requireNonNull(commandInfo, "Commands must have CommandInfo annotations!");
+        this.plugin = plugin;
     }
 
     @Override
@@ -62,6 +65,8 @@ public abstract class PluginCommand implements CommandExecutor {
 
     public CommandInfo getCommandInfo() {return this.commandInfo;}
 
-    public void execute(Player player, String[] args) {}
-    public void execute(CommandSender sender, String[] args) {}
+    public void execute(Player player, String[] args) {
+    }
+    public void execute(CommandSender sender, String[] args) {
+    }
 }
