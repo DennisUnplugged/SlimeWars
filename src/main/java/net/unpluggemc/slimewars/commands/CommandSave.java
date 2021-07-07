@@ -25,36 +25,23 @@ package net.unpluggemc.slimewars.commands;
 import net.unpluggemc.slimewars.SlimeWars;
 import net.unpluggemc.slimewars.utils.CommandInfo;
 import net.unpluggemc.slimewars.utils.PluginCommand;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
-import java.util.Objects;
+@CommandInfo(name = "saveArena", permission = "slimewars.command.save", requiresPlayer = false)
+public class CommandSave extends PluginCommand {
+    private final SlimeWars plugin;
 
-@CommandInfo(name = "warp", permission = "slimewars.warp", requiresPlayer = true)
-public class CommandWarp extends PluginCommand {
-
-    private SlimeWars plugin;
-
-    public CommandWarp(SlimeWars plugin) {
+    public CommandSave(SlimeWars plugin) {
         super(plugin);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean execute(Player p, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
+        if (args.length != 1) return false;
 
-        if (args.length != 1) {
-            return false;
-        }
-
-        String worldName = args[0];
-
-        if (worldName.isEmpty()) return false;
-
-        Objects.requireNonNull(plugin.getGameManager().getArenaManager().getArenaByName(worldName));
-
-        plugin.getGameManager().getArenaManager().getArenaByName(worldName).registerPlayer(p);
+        plugin.getGameManager().getArenaManager().getArenaByName(args[0]).saveActiveChangesToSource();
 
         return true;
     }
-
 }

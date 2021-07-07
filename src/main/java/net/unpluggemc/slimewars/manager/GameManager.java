@@ -20,67 +20,28 @@
  * SOFTWARE.
  */
 
-package net.unpluggemc.slimewars.arena;
+package net.unpluggemc.slimewars.manager;
 
 import net.unpluggemc.slimewars.SlimeWars;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
-
-public class ArenaManager {
-
+public class GameManager {
     private SlimeWars plugin;
-    private final Set<Arena> arenas = new HashSet<>();
+    private ArenaManager arenaManager;
 
-    public ArenaManager(SlimeWars plugin) {
-        //plugin folder, gameMaps
+    public GameManager(SlimeWars plugin) {
         this.plugin = plugin;
-
-        loadArenas();
+        this.arenaManager = new ArenaManager(plugin);
     }
 
-    public void registerArena(Arena a) {
-        if (a == null) return;
-        arenas.add(a);
+    public ArenaManager getArenaManager() {
+        return arenaManager;
     }
 
-    public Set<Arena> getArenas() {
-        return arenas;
+    public World getDefaultWorld() {
+        return Bukkit.getWorld("world");
     }
 
-    public Arena getArenaByName(String name) {
-
-        for (Arena a : arenas) {
-            if (a.getName().equals(name)) {
-                return a;
-            }
-        }
-
-        return null;
-    }
-
-    private void loadArenas() {
-        File dataFolder = plugin.getDataFolder();
-
-        File gameMapsFolder = new File(dataFolder, "gameMaps");
-
-        if (!gameMapsFolder.exists()) {
-            gameMapsFolder.mkdirs();
-        }
-
-        String[] maps = gameMapsFolder.list();
-
-        if (maps == null) return;
-
-        for (String s : maps) {
-            File f  = new File(gameMapsFolder, s);
-
-            Arena a = new Arena(plugin, f.getParentFile(), f.getName());
-            arenas.add(a);
-
-        }
-
-    }
 
 }

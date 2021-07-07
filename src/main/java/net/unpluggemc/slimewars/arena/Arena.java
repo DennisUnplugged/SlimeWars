@@ -25,6 +25,7 @@ package net.unpluggemc.slimewars.arena;
 import net.unpluggemc.slimewars.SlimeWars;
 import net.unpluggemc.slimewars.state.ArenaState;
 import net.unpluggemc.slimewars.utils.Colors;
+import net.unpluggemc.slimewars.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -49,6 +50,10 @@ public class Arena {
 
     private ArenaState state = ArenaState.WAITING_FOR_PLAYERS;
 
+    public File getSourceWorldFolder() {
+        return map;
+    }
+
     public Arena(SlimeWars plugin, File map, String name) {
         this.name = name;
         this.plugin = plugin;
@@ -60,7 +65,7 @@ public class Arena {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.activeMap = new LocalGameMap(map, name);
+        this.activeMap = new LocalGameMap(map, name, plugin);
 
         activeWorld = activeMap.getWorld();
         spawn = new Location(activeWorld, config.getInt("spawn.x"), config.getInt("spawn.y"), config.getInt("spawn.z"));
@@ -83,7 +88,7 @@ public class Arena {
 
         switch (state) {
             case WAITING_FOR_PLAYERS:
-                activeWorld.setPVP(false);
+
 
                 break;
             case STARTING:
@@ -96,7 +101,7 @@ public class Arena {
 
                 break;
             case MAP_RESET:
-                resetMap();
+
                 break;
         }
     }
@@ -172,5 +177,15 @@ public class Arena {
 
     public UUID[] getPlayers() {
         return (UUID[]) players.toArray();
+    }
+
+    public void saveActiveChangesToSource() {
+        try {
+            activeMap.saveToSource();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        resetMap();
     }
 }

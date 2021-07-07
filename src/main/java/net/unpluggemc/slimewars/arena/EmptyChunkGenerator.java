@@ -20,41 +20,40 @@
  * SOFTWARE.
  */
 
-package net.unpluggemc.slimewars.commands;
+package net.unpluggemc.slimewars.arena;
 
-import net.unpluggemc.slimewars.SlimeWars;
-import net.unpluggemc.slimewars.utils.CommandInfo;
-import net.unpluggemc.slimewars.utils.PluginCommand;
-import org.bukkit.entity.Player;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.BlockPopulator;
+import org.bukkit.generator.ChunkGenerator;
 
-import java.util.Objects;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
-@CommandInfo(name = "warp", permission = "slimewars.warp", requiresPlayer = true)
-public class CommandWarp extends PluginCommand {
+public class EmptyChunkGenerator extends ChunkGenerator {
 
-    private SlimeWars plugin;
-
-    public CommandWarp(SlimeWars plugin) {
-        super(plugin);
-        this.plugin = plugin;
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(World world) {
+        return Collections.<BlockPopulator>emptyList();
     }
 
     @Override
-    public boolean execute(Player p, String[] args) {
+    public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
+        ChunkData cd = super.createChunkData(world);
 
-        if (args.length != 1) {
-            return false;
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                biome.setBiome(x, z, Biome.PLAINS);
+            }
         }
 
-        String worldName = args[0];
-
-        if (worldName.isEmpty()) return false;
-
-        Objects.requireNonNull(plugin.getGameManager().getArenaManager().getArenaByName(worldName));
-
-        plugin.getGameManager().getArenaManager().getArenaByName(worldName).registerPlayer(p);
-
-        return true;
+        return cd;
     }
 
+    @Override
+    public Location getFixedSpawnLocation(World world, Random random) {
+        return new Location(world, 0, 0, 0);
+    }
 }

@@ -56,17 +56,18 @@ public abstract class PluginCommand implements CommandExecutor {
                 return true;
             }
 
-            execute((Player) sender, args);
+            return execute((Player) sender, args);
         }
 
-        execute(sender, args);
-        return true;
+        return execute(sender, args);
     }
 
     public CommandInfo getCommandInfo() {return this.commandInfo;}
 
-    public void execute(Player player, String[] args) {
+    public boolean execute(Player player, String[] args) {
+        return false;
     }
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
+        return false;
     }
 }

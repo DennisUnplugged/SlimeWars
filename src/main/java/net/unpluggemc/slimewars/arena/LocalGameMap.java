@@ -22,6 +22,7 @@
 
 package net.unpluggemc.slimewars.arena;
 
+import net.unpluggemc.slimewars.SlimeWars;
 import net.unpluggemc.slimewars.utils.Colors;
 import net.unpluggemc.slimewars.utils.FileUtils;
 import org.bukkit.Bukkit;
@@ -36,12 +37,13 @@ public class LocalGameMap implements GameMap {
 
     private final File sourceWorldFolder;
     private File activeWorldFolder;
+    private SlimeWars plugin;
 
     private World bukkitWorld;
 
-    public LocalGameMap(File worldFolder, String worldName) {
+    public LocalGameMap(File worldFolder, String worldName, SlimeWars plugin) {
         this.sourceWorldFolder = new File(worldFolder, worldName);
-
+        this.plugin = plugin;
         load();
     }
 
@@ -61,7 +63,7 @@ public class LocalGameMap implements GameMap {
 
         this.bukkitWorld = Bukkit.createWorld(new WorldCreator(activeWorldFolder.getName()));
 
-        if (bukkitWorld != null) this.bukkitWorld.setAutoSave(false);
+        if (bukkitWorld != null) this.bukkitWorld.setAutoSave(false); else return false;
         return isLoaded();
     }
 
@@ -92,5 +94,21 @@ public class LocalGameMap implements GameMap {
     @Override
     public World getWorld() {
         return bukkitWorld;
+    }
+
+    public void unloadWithoutDeleting() {
+        if (bukkitWorld != null) Bukkit.unloadWorld(bukkitWorld, true);
+
+        bukkitWorld = null;
+    }
+
+    public void saveToSource() throws IOException {
+        unloadWithoutDeleting();
+
+        FileUtils.copy(activeWorldFolder, sourceWorldFolder);
+
+        FileUtils.deleteDir(activeWorldFolder);
+        activeWorldFolder = null;
+
     }
 }

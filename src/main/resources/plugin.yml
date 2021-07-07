@@ -9,11 +9,19 @@ website: www.unpluggedmc.net
 commands:
   warp:
     usage: §cWrong Syntax! /warp <world>
-    aliases: [sw]
+    aliases: [ sw ]
     description: The command to join a world/arena
     permission: slimewars.warp
   resetMap:
     usage: §cWrong Syntax! /reset <world>
-    aliases: [rollback]
+    aliases: [ rollback ]
     description: The command to reset/rollback a world/arena
     permission: slimewars.reset
+  saveArena:
+    usage: §cWrong Syntax! /saveArena <arenaName>
+    description: The command to save the changes of tha active arena to the parent folder
+    permission: slimewars.command.save
+  createArena:
+    usage: §cWrong Syntax! /create <arenaName>
+    description: The command to create an arena
+    permission: slimewars.command.create

@@ -25,36 +25,30 @@ package net.unpluggemc.slimewars.commands;
 import net.unpluggemc.slimewars.SlimeWars;
 import net.unpluggemc.slimewars.utils.CommandInfo;
 import net.unpluggemc.slimewars.utils.PluginCommand;
-import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
-import java.util.Objects;
+import java.io.IOException;
 
-@CommandInfo(name = "warp", permission = "slimewars.warp", requiresPlayer = true)
-public class CommandWarp extends PluginCommand {
+@CommandInfo(name = "createArena", permission = "slimewars.createArena", requiresPlayer = false)
+public class CommandCreate extends PluginCommand {
 
-    private SlimeWars plugin;
+    private final SlimeWars plugin;
 
-    public CommandWarp(SlimeWars plugin) {
+    public CommandCreate(SlimeWars plugin) {
         super(plugin);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean execute(Player p, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
 
-        if (args.length != 1) {
-            return false;
+        try {
+            plugin.getGameManager().getArenaManager().createSampleArena(args[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        String worldName = args[0];
-
-        if (worldName.isEmpty()) return false;
-
-        Objects.requireNonNull(plugin.getGameManager().getArenaManager().getArenaByName(worldName));
-
-        plugin.getGameManager().getArenaManager().getArenaByName(worldName).registerPlayer(p);
 
         return true;
     }
-
 }

@@ -39,20 +39,22 @@ public class CommandReset extends PluginCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
 
         if (args.length != 1) {
-            return;
+            return false;
         }
 
         String name = args[0];
 
         if (name.isEmpty()) {
-            return;
+            return false;
         }
 
-        plugin.getArenaManager().getArenaByName(name).resetMap();
+        plugin.getGameManager().getArenaManager().getArenaByName(name).resetMap();
 
         sender.sendMessage(Colors.colorize("&2Map " + name + " was reset!"));
+
+        return true;
     }
 }
